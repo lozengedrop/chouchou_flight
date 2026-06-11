@@ -28,48 +28,42 @@ points:
         pinky:
           key:
             splay: 15
-          rows:
-            top.mcu_pin: GP26
-            bottom.mcu_pin: GP12
-            top.mirror.mcu_pin: GP3
-            bottom.mirror.mcu_pin: GP7
+            col_net: D11
+            mirror.col_net: D11
         ring:
           key:
             stagger: 8
             spread: 23
             splay: -10
-          rows:
-            top.mcu_pin: GP27
-            bottom.mcu_pin: GP13
-            top.mirror.mcu_pin: GP2
-            bottom.mirror.mcu_pin: GP6
+            col_net: D12
+            mirror.col_net: D12
         middle:
           key:
             stagger: 5
             spread: 21
             splay: -5
-          rows:
-            top.mcu_pin: GP28
-            bottom.mcu_pin: GP14
-            top.mirror.mcu_pin: GP1
-            bottom.mirror.mcu_pin: GP5
+            col_net: D13
+            mirror.col_net: D13
         index:
           key:
             stagger: -8
             spread: 23
             splay: -5
-          rows:
-            top.mcu_pin: GP29
-            bottom.mcu_pin: GP15
-            top.mirror.mcu_pin: GP0
-            bottom.mirror.mcu_pin: GP4
+            col_net: D14
+            mirror.col_net: D14
       rows:
         bottom:
+          row_net: D1
+          mirror.row_net: D3
         top:
+          row_net: D0
+          mirror.row_net: D2
     thumbs:
       key:
         padding: 1ky
         spread: 1kx
+        row_net: D6
+        mirror.row_net: D6
       anchor:
         ref: matrix_index_bottom
         shift: [14, 0]
@@ -79,14 +73,14 @@ points:
             width: 1.5kx
             splay: 3
             rotate: 90
-            mcu_pin: GP11
-            mirror.mcu_pin: GP8
+            col_net: D11
+            mirror.col_net: D13
         outer:
           key:
             width: 1.5kx
             rotate: 90
-            mcu_pin: GP10
-            mirror.mcu_pin: GP9
+            col_net: D12
+            mirror.col_net: D14
       rows:
         cluster:
           shift: [0, -2ky]
@@ -200,13 +194,13 @@ outlines:
       what: circle
       where:
         ref: [matrix_pinky_top]
-        shift: [0.5px + 3,0.5py + 3]
+        shift: [0.5px + 1.5,0.5py + 3]
     holeTopRight:
       radius: screwRadius
       what: circle
       where:
         ref: [mirror_matrix_pinky_top]
-        shift: [0.5px + 3,0.5py + 3]
+        shift: [0.5px + 1.5,0.5py + 3]
     holeBottomLeft:
       radius: screwRadius
       what: circle
@@ -224,13 +218,13 @@ outlines:
       what: circle
       where:
         ref: [matrix_index_top]
-        shift: [-0.5px - 3, 11]
+        shift: [-0.5px - 1, 10]
     holeMiddleTopRight:
       radius: screwRadius
       what: circle
       where:
         ref: [mirror_matrix_index_top]
-        shift: [-0.5px - 3, 11]
+        shift: [-0.5px - 1, 10]
     holeMiddleBottomLeft:
       radius: screwRadius
       what: circle
@@ -249,73 +243,105 @@ outlines:
       expand: standoffThickness
 pcbs:
   chouchou:
+    template: kicad8
     outlines:
       main:
         outline:
           board
     footprints:
-      choc_hotswap:
-        what: choc
-        where: true
-        params:
-          keycaps: true
-          hotswap: true
-          from: "{{mcu_pin}}"
-          to: GND
       choc:
-        what: choc
+        what: ceoloide/switch_choc_v1_v2
         where: true
         adjust:
-          rotate: 180
+          rotate: 0
         params:
-          keycaps: true
-          from: "{{mcu_pin}}"
-          to: GND
+          solder: true
+          from:  "{{col_net}}"
+          to: "{{colrow}}"
+      diode_main:
+          what: ceoloide/diode_tht_sod123
+          where: -/mirror_*/
+          params:
+            from: "{{colrow}}"
+            to: "{{row_net}}"
+            side: B
+          adjust:
+            shift: [5, -2]
+            rotate: 180
+      diode_mirror:
+          what: ceoloide/diode_tht_sod123
+          where: /mirror_*/
+          params:
+            from: "{{colrow}}"
+            to: "{{row_net}}"
+            side: B
+          adjust:
+            shift: [-5, -2]
+            rotate: 0
       mcu:
-        what: rp2040zero
+        what: XIAO-nRF52840-Plus-SMD-Cutout
         where:
           ref.aggregate.parts: [matrix_index_top, mirror_matrix_index_top]
-          shift: [-10,-24]
+          shift: [0,-8.5]
         params:
-          reverse: true
-          GND: GND
+          side: B
+          VCC3: VCC
+          BATp: BAT_P
+          flipx: true
+      display:
+          what: ceoloide/display_nice_view
+          params:
+            MOSI: D10
+            SCK: D8
+            CS: D7
+          where:
+            ref.aggregate.parts: [matrix_index_top, mirror_matrix_index_top]
+            shift: [0,-16]
+      battery_jst:
+        what: ceoloide/battery_connector_jst_ph_2
+        where:
+            ref.aggregate.parts: [matrix_index_top, mirror_matrix_index_top]
+            shift: [5,-23]
+            rotate: 90
+        params:
+          side: B
       holeTopLeft:
-        what: mountinghole
+        what: ceoloide/mounting_hole_plated
         where:
           ref: [matrix_pinky_top]
-          shift: [0.5px + 3,0.5py + 3]
+          shift: [0.5px + 1.5,0.5py + 3]
       holeTopRight:
-        what: mountinghole
+        what: ceoloide/mounting_hole_plated
         where:
           ref: [mirror_matrix_pinky_top]
-          shift: [0.5px + 3,0.5py + 3]
+          shift: [0.5px + 1.5,0.5py + 3]
       holeBottomLeft:
-        what: mountinghole
+        what: ceoloide/mounting_hole_plated
         where:
           ref: [matrix_middle_bottom]
           shift: [0,-0.5py - 3]
       holeBottomRight:
-        what: mountinghole
+        what: ceoloide/mounting_hole_plated
         where:
           ref: [mirror_matrix_middle_bottom]
           shift: [0,-0.5py - 3]
       holeMiddleTopLeft:
-        what: mountinghole
+        what: ceoloide/mounting_hole_plated
         where:
           ref: [matrix_index_top]
-          shift: [-0.5px - 3, 11]
+          shift: [-0.5px - 1, 10]
       holeMiddleTopRight:
-        what: mountinghole
+        what: ceoloide/mounting_hole_plated
         where:
           ref: [mirror_matrix_index_top]
-          shift: [-0.5px - 3, 11]
+          shift: [-0.5px - 1, 10]
       holeMiddleBottomLeft:
-        what: mountinghole
+        what: ceoloide/mounting_hole_plated
         where:
           ref: [thumbs_outer_cluster]
           shift: [-0.5kx - 3, 0.5kx]
       holeMiddleBottomRight:
-        what: mountinghole
+        what: ceoloide/mounting_hole_plated
         where:
           ref: [mirror_thumbs_outer_cluster]
           shift: [-0.5kx - 3, 0.5kx]
