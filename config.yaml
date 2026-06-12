@@ -247,13 +247,6 @@ outlines:
       where:
           ref.aggregate.parts: [matrix_index_top, mirror_matrix_index_top]
           shift: [0,-28]
-  jst_pocket:
-    - what: rectangle
-      size: [9, 20]
-      where:
-            ref.aggregate.parts: [mirror_matrix_index_top, mirror_matrix_index_bottom]
-            shift: [-11,0]
-            rotate: -90
 pcbs:
   chouchou:
     template: kicad8
@@ -269,11 +262,6 @@ pcbs:
           rotate: 0
         params:
           solder: true
-          hotswap: true
-          include_keycap: true
-          keycap_width: 17
-          keycap_height: 16
-          include_corner_marks: true
           from:  "{{col_net}}"
           to: "{{colrow}}"
       diode_main:
@@ -318,9 +306,9 @@ pcbs:
       battery_jst:
         what: ceoloide/battery_connector_jst_ph_2
         where:
-            ref.aggregate.parts: [mirror_matrix_index_top, mirror_matrix_index_bottom]
-            shift: [-7.5,0]
-            rotate: -90
+            ref.aggregate.parts: [matrix_index_top, mirror_matrix_index_top]
+            shift: [0,-21.5]
+            rotate: 0
         params:
           side: B
       holeTopLeft:
@@ -400,10 +388,6 @@ cases:
       name: wall
       operation: add
     - name: battery_pocket
-      operation: subtract
-      extrude: 6
-      shift: [0, 0, 2]
-    - name: jst_pocket
       operation: subtract
       extrude: 6
       shift: [0, 0, 2]
