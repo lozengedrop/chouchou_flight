@@ -257,11 +257,30 @@ pcbs:
     footprints:
       choc:
         what: ceoloide/switch_choc_v1_v2
-        where: true
+        where: -/thumbs_*/
         adjust:
           rotate: 0
         params:
           solder: true
+          hotswap: true
+          include_keycap: true
+          keycap_width: kx-1
+          keycap_height: ky-1
+          include_corner_marks: true
+          from:  "{{col_net}}"
+          to: "{{colrow}}"
+      choc_thumb:
+        what: ceoloide/switch_choc_v1_v2
+        where: /thumbs_*/
+        adjust:
+          rotate: 0
+        params:
+          solder: true
+          hotswap: true
+          include_keycap: true
+          keycap_width: kx*1.5-1
+          keycap_height: ky-1
+          include_corner_marks: true
           from:  "{{col_net}}"
           to: "{{colrow}}"
       diode_main:
@@ -351,6 +370,29 @@ pcbs:
         where:
           ref: [mirror_thumbs_outer_cluster]
           shift: [-0.5kx - 3, 0.5kx]
+      creditText:
+        what: ceoloide/utility_text
+        where:
+            ref.aggregate.parts: [matrix_index_top, mirror_matrix_index_top]
+            shift: [-22,-33]
+        params:
+          side: B
+          text: ChouChou Flight\n---------------------\nOriginal Design\ngithub.com/dlip (Dane Lipscombe)\n---------------------\nFlight Edition Modifications\ngithub.com/lozengedrop (Zach Logan)
+      ergogenlogo:
+          what: ceoloide/utility_ergogen_logo
+          where:
+            ref.aggregate.parts: [matrix_index_top, mirror_matrix_index_top]
+            shift: [22,-30]
+          params:
+            side: B
+      ergogentext:
+        what: ceoloide/utility_text
+        where:
+            ref.aggregate.parts: [matrix_index_top, mirror_matrix_index_top]
+            shift: [22,-36]
+        params:
+          text: Powered By\nErgogen
+          side: B
 cases:
   bottom:
     - name: xlBoard
