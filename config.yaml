@@ -247,6 +247,12 @@ outlines:
       where:
           ref.aggregate.parts: [matrix_index_top, mirror_matrix_index_top]
           shift: [0,-28]
+  mcu_pocket:
+    - what: rectangle
+      size: [20, 24]
+      where:
+          ref.aggregate.parts: [matrix_index_top, mirror_matrix_index_top]
+          shift: [0,-4]
 pcbs:
   chouchou:
     template: kicad8
@@ -322,6 +328,11 @@ pcbs:
           where:
             ref.aggregate.parts: [matrix_index_top, mirror_matrix_index_top]
             shift: [0,-16]
+      reset:
+        what: ceoloide/reset_switch_tht_top
+        where:
+            ref.aggregate.parts: [matrix_index_top, mirror_matrix_index_top]
+            shift: [0,-40]
       battery_jst:
         what: ceoloide/battery_connector_jst_ph_2
         where:
@@ -430,6 +441,10 @@ cases:
       name: wall
       operation: add
     - name: battery_pocket
+      operation: subtract
+      extrude: 6
+      shift: [0, 0, 2]
+    - name: mcu_pocket
       operation: subtract
       extrude: 6
       shift: [0, 0, 2]
