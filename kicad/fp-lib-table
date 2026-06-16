@@ -1,4 +1,0 @@
-(fp_lib_table
-  (version 7)
-  (lib (name "images")(type "KiCad")(uri "${KIPRJMOD}/images")(options "")(descr ""))
-)
