@@ -230,7 +230,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "chouchou(6).kicad_pro",
+    "filename": "chouchou.kicad_pro",
     "version": 3
   },
   "net_settings": {
@@ -266,7 +266,7 @@
       "gencad": "",
       "idf": "",
       "netlist": "",
-      "plot": "",
+      "plot": "gerber/",
       "pos_files": "",
       "specctra_dsn": "",
       "step": "",
